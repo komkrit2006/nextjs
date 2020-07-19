@@ -5,6 +5,8 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Provider } from 'react-redux';
 import { createWrapper } from 'next-redux-wrapper';
+import { SWRConfig } from 'swr';
+import axios from 'axios';
 import theme from '../constants/theme';
 import store from '../store/store';
 
@@ -31,7 +33,9 @@ const MyApp = (props) => {
         <Provider store={store}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
-          <Component {...pageProps} />
+          <SWRConfig value={{ fetcher: (url) => axios(url).then((res) => res.data) }}>
+            <Component {...pageProps} />
+          </SWRConfig>
         </Provider>
       </ThemeProvider>
     </>

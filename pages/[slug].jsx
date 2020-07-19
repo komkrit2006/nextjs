@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import Head from 'next/head';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import getConfig from 'next/config';
 import translateAction from '../store/actions/translateAction';
 
 export default function Home({ photo, math }) {
   const dispatch = useDispatch();
   const [newPhoto, setPhoto] = useState(photo);
   const { aboutUs } = useSelector((state) => state.translate);
+  const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
   useEffect(() => {
     setPhoto(photo);
   }, [photo]);
@@ -36,6 +38,11 @@ export default function Home({ photo, math }) {
         <button type="button" className="btn btn-danger" onClick={() => callService()}>ChangeData</button>
         <pre>{JSON.stringify(newPhoto, null, 4)}</pre>
         <p>{`title: ${newPhoto.title}`}</p>
+        <pre>{`env: ${process.env.MY_ENV}`}</pre>
+        {/* Will only be available on the server-side */}
+        <pre>{`server env: ${serverRuntimeConfig.MY_SECRET}`}</pre>
+        {/* Will be available on both server-side and client-side */}
+        <pre>{`runtime env: ${publicRuntimeConfig.MY_ENDPOINT}`}</pre>
         <img src={newPhoto.url} alt="icon" />
         <pre>{math}</pre>
       </main>
@@ -57,7 +64,7 @@ Home.defaultProps = {
 export const getStaticProps = async ({ params }) => {
   const data = await axios({
     method: 'GET',
-    url: `https://jsonplaceholder.typicode.com/photos/${params.id}`,
+    url: `https://jsonplaceholder.typicode.com/photos/${params.slug}`,
   })
     .then((res) => res.data);
   return {
@@ -70,7 +77,7 @@ export const getStaticProps = async ({ params }) => {
 
 export const getStaticPaths = async () => (
   {
-    paths: [{ params: { id: '1' } }],
+    paths: [{ params: { slug: '1' } }],
     fallback: true,
   }
 );
