@@ -1,19 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import translateAction from '../store/actions/translateAction';
 
-export default function Home({ photo }) {
+export default function Home({ photo, math }) {
   const dispatch = useDispatch();
+  const [newPhoto, setPhoto] = useState(photo);
   const { aboutUs } = useSelector((state) => state.translate);
-  const router = useRouter();
-  if (router.isFallback) {
-    return (
-      <div>Loading...</div>
-    );
+  useEffect(() => {
+    setPhoto(photo);
+  }, [photo]);
+
+  const callService = async () => {
+    await axios({
+      method: 'GET',
+      url: 'https://jsonplaceholder.typicode.com/photos/40',
+    })
+      .then((res) => setPhoto(res.data));
+  };
+  if (!newPhoto) {
+    return <div>Loading...</div>;
   }
   return (
     <div className="container">
@@ -25,9 +33,11 @@ export default function Home({ photo }) {
       <main>
         <h1>{aboutUs}</h1>
         <button type="button" className="btn btn-primary" onClick={() => dispatch(translateAction('th'))}>Translate</button>
-        <pre>{JSON.stringify(photo, null, 4)}</pre>
-        <p>{`title: ${photo.title}`}</p>
-        <img src={photo.url} alt="icon" />
+        <button type="button" className="btn btn-danger" onClick={() => callService()}>ChangeData</button>
+        <pre>{JSON.stringify(newPhoto, null, 4)}</pre>
+        <p>{`title: ${newPhoto.title}`}</p>
+        <img src={newPhoto.url} alt="icon" />
+        <pre>{math}</pre>
       </main>
 
     </div>
@@ -36,10 +46,12 @@ export default function Home({ photo }) {
 
 Home.propTypes = {
   photo: PropTypes.instanceOf(Object),
+  math: PropTypes.string,
 };
 
 Home.defaultProps = {
   photo: null,
+  math: null,
 };
 
 export const getStaticProps = async ({ params }) => {
@@ -51,24 +63,14 @@ export const getStaticProps = async ({ params }) => {
   return {
     props: {
       photo: data,
+      math: Math.random(),
     },
   };
 };
 
-export const getStaticPaths = async () => {
-  const paths = await axios({
-    method: 'GET',
-    url: 'https://jsonplaceholder.typicode.com/photos',
-  })
-    .then((res) => res.data.map((data) => ({
-      params: {
-        id: data.id.toString(),
-      },
-    })));
-  return (
-    {
-      paths,
-      fallback: true,
-    }
-  );
-};
+export const getStaticPaths = async () => (
+  {
+    paths: [{ params: { id: '1' } }],
+    fallback: true,
+  }
+);
