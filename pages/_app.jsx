@@ -23,9 +23,12 @@ const MyApp = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+        {/* CssBaseline kickstart an elegant,
+        consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <SWRConfig value={{ fetcher: (url) => axios(url).then((res) => res.data) }}>
+        <SWRConfig
+          value={{ fetcher: (url) => axios(url).then((res) => res.data) }}
+        >
           <Component {...pageProps} />
         </SWRConfig>
       </Provider>
