@@ -8,7 +8,7 @@ import { createWrapper } from 'next-redux-wrapper';
 import { SWRConfig } from 'swr';
 import axios from 'axios';
 import theme from '../constants/theme';
-import store from '../store/store';
+import store from '../redux/store';
 
 const MyApp = (props) => {
   const { Component, pageProps } = props;

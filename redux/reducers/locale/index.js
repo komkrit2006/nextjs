@@ -1,5 +1,5 @@
-import COMPILE_TRANSLATE from '../types';
-import translator from '../../languages';
+import COMPILE_TRANSLATE from '../../types';
+import translator from '../../../contexts/locale';
 
 export default (state = translator('en'), action) => {
   switch (action.type) {

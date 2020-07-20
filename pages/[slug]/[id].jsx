@@ -2,18 +2,15 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
 import getConfig from 'next/config';
-import translateAction from '../../store/actions/translateAction';
-import SWRData from '../../components/swr';
+import SWRData from '../../widgets/swr';
+import Button from '../../components/button';
 
 export default function Home({ photo, math }) {
-  const dispatch = useDispatch();
-  const [newPhoto, setPhoto] = useState(photo);
-  const { aboutUs } = useSelector((state) => state.translate);
+  const [newPhoto, setNewPhoto] = useState(photo);
   const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
   useEffect(() => {
-    setPhoto(photo);
+    setNewPhoto(photo);
   }, [photo]);
 
   const callService = async () => {
@@ -21,7 +18,7 @@ export default function Home({ photo, math }) {
       method: 'GET',
       url: 'https://jsonplaceholder.typicode.com/photos/40',
     })
-      .then((res) => setPhoto(res.data));
+      .then((res) => setNewPhoto(res.data));
   };
   if (!newPhoto) {
     return <div>Loading...</div>;
@@ -34,10 +31,7 @@ export default function Home({ photo, math }) {
       </Head>
 
       <main>
-        <h1>{aboutUs}</h1>
-        <button type="button" className="btn btn-primary" onClick={() => dispatch(translateAction('th'))}>Translate</button>
-        <button type="button" className="btn btn-danger" onClick={() => callService()}>ChangeData</button>
-        <pre>{JSON.stringify(newPhoto, null, 4)}</pre>
+        <Button onClick={callService} />
         <p>{`title: ${newPhoto.title}`}</p>
         <pre>{`env: ${process.env.MY_ENV}`}</pre>
         {/* Will only be available on the server-side */}
@@ -46,7 +40,8 @@ export default function Home({ photo, math }) {
         <pre>{`runtime env: ${publicRuntimeConfig.MY_ENDPOINT}`}</pre>
         <img src={newPhoto.url} alt="icon" />
         <pre>{math}</pre>
-        {/* can use specific compoent  */}
+        <pre>{JSON.stringify(newPhoto, null, 4)}</pre>
+        {/* only client side  */}
         <SWRData />
       </main>
 

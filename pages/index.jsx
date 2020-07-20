@@ -2,16 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import axios from 'axios';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import { useDispatch, useSelector } from 'react-redux';
+import Table from '../components/table';
+import Button from '../components/button';
+import translateAction from '../redux/actions/locale';
 
 export default function Home(props) {
   const { posts } = props;
+  const dispatch = useDispatch();
+  const { aboutUs } = useSelector((state) => state.translate);
   return (
     <div className="container">
       <Head>
@@ -20,28 +19,9 @@ export default function Home(props) {
       </Head>
 
       <main>
-        <TableContainer component={Paper}>
-          <Table aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Id</TableCell>
-                <TableCell align="right">Title</TableCell>
-                <TableCell align="right">Body</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {posts.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    {row.id}
-                  </TableCell>
-                  <TableCell align="right">{row.title}</TableCell>
-                  <TableCell align="right">{row.body}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <h1>{aboutUs}</h1>
+        <Button onClick={() => dispatch(translateAction('th'))} />
+        <Table value={posts} />
       </main>
     </div>
   );

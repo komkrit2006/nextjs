@@ -2,14 +2,12 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
 import getConfig from 'next/config';
-import translateAction from '../store/actions/translateAction';
+import Button from '../components/button';
+import SWRData from '../widgets/swr';
 
 export default function Home({ photo, math }) {
-  const dispatch = useDispatch();
   const [newPhoto, setPhoto] = useState(photo);
-  const { aboutUs } = useSelector((state) => state.translate);
   const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
   useEffect(() => {
     setPhoto(photo);
@@ -33,10 +31,7 @@ export default function Home({ photo, math }) {
       </Head>
 
       <main>
-        <h1>{aboutUs}</h1>
-        <button type="button" className="btn btn-primary" onClick={() => dispatch(translateAction('th'))}>Translate</button>
-        <button type="button" className="btn btn-danger" onClick={() => callService()}>ChangeData</button>
-        <pre>{JSON.stringify(newPhoto, null, 4)}</pre>
+        <Button onClick={callService} />
         <p>{`title: ${newPhoto.title}`}</p>
         <pre>{`env: ${process.env.MY_ENV}`}</pre>
         {/* Will only be available on the server-side */}
@@ -45,6 +40,9 @@ export default function Home({ photo, math }) {
         <pre>{`runtime env: ${publicRuntimeConfig.MY_ENDPOINT}`}</pre>
         <img src={newPhoto.url} alt="icon" />
         <pre>{math}</pre>
+        <pre>{JSON.stringify(newPhoto, null, 4)}</pre>
+        {/* only client side  */}
+        <SWRData />
       </main>
 
     </div>

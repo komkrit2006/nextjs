@@ -1,4 +1,4 @@
-import COMPILE_TRANSLATE from '../types';
+import COMPILE_TRANSLATE from '../../types';
 
 export default (languageCode) => (dispatch) => {
   dispatch({

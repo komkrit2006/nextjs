@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import translateReducer from './translateReducer';
+import translateReducer from './locale';
 
 export default combineReducers({
   translate: translateReducer,
