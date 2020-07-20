@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Head from 'next/head';
 import axios from 'axios';
 import getConfig from 'next/config';
 import Button from '../components/button';
@@ -25,11 +24,6 @@ export default function Home({ photo, math }) {
   }
   return (
     <div className="container">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <main>
         <Button onClick={callService} />
         <p>{`title: ${newPhoto.title}`}</p>

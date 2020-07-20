@@ -10,12 +10,15 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          <title>Create Next App</title>
+          <link rel="icon" href="/favicon.ico" />
           {/* PWA primary color */}
           <meta name="theme-color" content={theme.palette.primary.main} />
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-          />
+          <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+          {/* cdn bootstrap */}
+          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossOrigin="anonymous" />
+          {/* google font  */}
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
         </Head>
         <body>
           <Main />

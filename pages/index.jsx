@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Head from 'next/head';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import Table from '../components/table';
@@ -13,11 +12,6 @@ export default function Home(props) {
   const { aboutUs } = useSelector((state) => state.translate);
   return (
     <div className="container">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <main>
         <h1>{aboutUs}</h1>
         <Button onClick={() => dispatch(translateAction('th'))} />
