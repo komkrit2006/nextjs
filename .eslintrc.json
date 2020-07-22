@@ -13,13 +13,6 @@
   },
   "plugins": ["react"],
   "rules": {
-    "react/jsx-props-no-spreading": 0,
-    "max-len": [
-      "error",
-      {
-        "code": 80,
-        "comments": 65
-      }
-    ]
+    "react/jsx-props-no-spreading": 0
   }
 }
